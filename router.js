@@ -22,14 +22,13 @@ const home = (req,res) => { // req = instance of http.IncomingMessage (readable 
     }    
 }
 
-const cep = (req, res) => {
+const endereco = (req, res) => {
     let cep = req.url.replace('/','');
     if (cep.length > 0) {
         res.writeHead(200, {'Content-Type': 'text/html'});
         renderer.view('header', {}, res);
-        let getAddress = new Address(cep);
+        let getAddress = new Address(cep); //access the correios.js (declared in the beginning of this file), read the HTTP API and extract the wanted values in each new variable
         getAddress.on('end', cepJSON => {
-            //show address details
             let values = {
                 cidade: cepJSON.cidade,
                 estado: cepJSON.estado,
@@ -51,17 +50,5 @@ const cep = (req, res) => {
     }
 }
 
-/*
-const css = (req, res) => {
-    if (req.url === './css/styles.css') {
-      res.writeHead(200, {'Content-type' : 'text/css'});
-      const fileContents = fs.readFileSync('./css/styles.css', {encoding: 'utf8'});
-      res.write(fileContents);
-      res.end();
-    }
-}  
-*/
-
 module.exports.home = home;
-module.exports.cep = cep; 
-//module.exports.css = css;
+module.exports.endereco = endereco; 

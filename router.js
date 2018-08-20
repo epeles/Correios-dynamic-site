@@ -6,9 +6,9 @@ const home = (req,res) => { // req = instance of http.IncomingMessage (readable 
     if (req.url === "/") { 
         if (req.method.toLowerCase() === 'get') { //GET method shows in the URL the input typed by the user, while POST hides it.
             res.writeHead(200, {'Content-Type': 'text/html'});
-            renderer.view('header', {}, res);
-            renderer.view('search', {}, res);
-            renderer.view('footer', {}, res);
+            renderer.view('header', {}, res); //shows the header.html
+            renderer.view('search', {}, res); //shows the search.html
+            renderer.view('footer', {}, res); //shows the footer.html
             res.end();
         }
         else { //if url == '/' and POST
@@ -27,7 +27,7 @@ const endereco = (req, res) => {
     if (cep.length > 0) {
         res.writeHead(200, {'Content-Type': 'text/html'});
         renderer.view('header', {}, res);
-        let getAddress = new Address(cep); //access the correios.js (declared in the beginning of this file), read the HTTP API and extract the wanted values in each new variable
+        let getAddress = new Address(cep); //access the correios.js (declared in the beginning of this file), consums the JSON API and extract the wanted values in each new variable
         getAddress.on('end', cepJSON => {
             let values = {
                 cidade: cepJSON.cidade,
@@ -37,8 +37,8 @@ const endereco = (req, res) => {
                 area_cidade: cepJSON.cidade_info.area_km2,
                 cep: cepJSON.cep
             }
-            renderer.view('address', values, res);
-            renderer.view('footer', {}, res);
+            renderer.view('address', values, res);//shows the content of address.html with the values obtained above
+            renderer.view('footer', {}, res); 
             res.end();
         });
         getAddress.on('error', error => {

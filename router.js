@@ -34,8 +34,8 @@ const endereco = (req, res) => {
                 estado: cepJSON.estado,
                 bairro: cepJSON.bairro,
                 logradouro: cepJSON.logradouro,
-                area_cidade: cepJSON.cidade_info.area_km2,
-                cep: cepJSON.cep
+                area_cidade: parseFloat(cepJSON.cidade_info.area_km2.replace(',','.')).toFixed(2),
+                cep: cepJSON.cep.slice(0,5) + '-' + cepJSON.cep.slice(5)
             }
             renderer.view('address', values, res);//shows the content of address.html with the values obtained above
             renderer.view('footer', {}, res); 
@@ -50,5 +50,15 @@ const endereco = (req, res) => {
     }
 }
 
+/* const style = (req, res) => {
+    if (req.url.indexOf('.css') != -1) {
+        res.writeHead(200, {'Content-Type': 'text/css'});
+        renderer.contentType('/views' + req.url, req, res);
+        res.end();
+    }
+}    
+*/
+
 module.exports.home = home;
 module.exports.endereco = endereco; 
+//module.exports.style = style;
